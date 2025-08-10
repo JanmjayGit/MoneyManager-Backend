@@ -73,90 +73,10 @@ public class SecurityConfig {
         return new ProviderManager(authenticationProvider);
     }
 
-//    @Bean
-//    public AuthenticationManager authenticationManager(){
-//        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-//        authenticationProvider.setUserDetailsService(appUserDetailsService); // Use the injected field
-//        authenticationProvider.setPasswordEncoder(passwordEncoder());
-//        return new ProviderManager(authenticationProvider);
-//    }
 }
 
 
 
-//package com.janmjay.expansetracker.config;
-//
-//import com.janmjay.expansetracker.service.AppUserDetailsService;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.http.HttpMethod;
-//import org.springframework.security.authentication.AuthenticationManager;
-//import org.springframework.security.authentication.ProviderManager;
-//import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-//import org.springframework.security.config.Customizer;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-//import org.springframework.security.config.http.SessionCreationPolicy;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
-//import org.springframework.security.web.SecurityFilterChain;
-//import org.springframework.web.cors.CorsConfiguration;
-//import org.springframework.web.cors.CorsConfigurationSource;
-//import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-//
-//import java.util.List;
-//
-//@Configuration
-//@RequiredArgsConstructor
-//public class SecurityConfig {
-//
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity.cors(Customizer.withDefaults())
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(auth -> auth.requestMatchers("/status",
-//                                "/health",
-//                                "/register",
-//                                "/activate",
-//                                "/login").permitAll()
-//                        .anyRequest()
-//                        .authenticated())
-//                        .sessionManagement(session -> session
-//                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-//        return httpSecurity.build();
-//    }
-//
-//
-//    @Bean   // PasswordEncoder is an interface in Spring Security used to hash, verify, and manage passwords securely
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//    @Bean  //CorsConfiguration is a Spring class that helps you define CORS (Cross-Origin Resource Sharing) settings in your application.
-//    public CorsConfigurationSource corsConfigurationSource(){
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(List.of("*"));
-//        configuration.setAllowedMethods(List.of("POST", "GET", "PUT", "DELETE", "OPTIONS"));
-//        configuration.setAllowedHeaders(List.of("Authorization","Content-Type","Accept"));
-//        configuration.setAllowCredentials(true);
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
-//
-//    //This AuthenticationManager bean authenticates user credentials (like email + password)
-//    //using your custom AppUserDetailsService and password encryption (PasswordEncoder).
-//    @Bean
-//    public AuthenticationManager authenticationManager(AppUserDetailsService appUserDetailsService){
-//        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-//        authenticationProvider.setUserDetailsService(appUserDetailsService);
-//        authenticationProvider.setPasswordEncoder(passwordEncoder());
-//        return new ProviderManager(authenticationProvider);
-//    }
-//}
-//
-//
 ////SessionManagement is a configuration feature in Spring Security that controls how HTTP sessions are handled for
 ////incoming web requests.
 //

@@ -5,10 +5,7 @@ import com.janmjay.expansetracker.entity.CategoryEntity;
 import com.janmjay.expansetracker.entity.ProfileEntity;
 import com.janmjay.expansetracker.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -29,27 +26,6 @@ public class CategoryService {
         newCategory = categoryRepository.save(newCategory);
         return toDTO(newCategory);
     }
-
-//    public CategoryDTO saveCategory(CategoryDTO categoryDTO) {
-//        ProfileEntity profile = profileService.getCurrentProfile();
-//        if (profile == null) {
-//            System.out.println("Profile is null");
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid user");
-//        }
-//
-//        System.out.println("Profile ID: " + profile.getId());
-//
-//        if (categoryRepository.existsByNameAndProfileId(categoryDTO.getName(), profile.getId())) {
-//            System.out.println("Category already exists: " + categoryDTO.getName());
-//            throw new ResponseStatusException(HttpStatus.CONFLICT, "Category already exists");
-//        }
-//
-//        CategoryEntity newCategory = toEntity(categoryDTO, profile);
-//        newCategory = categoryRepository.save(newCategory);
-//        System.out.println(" Category saved with ID: " + newCategory.getId());
-//
-//        return toDTO(newCategory);
-//    }
 
     // get categories for current users
 

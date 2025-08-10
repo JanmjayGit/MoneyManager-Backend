@@ -1,9 +1,7 @@
 package com.janmjay.expansetracker.service;
 
-import com.janmjay.expansetracker.dto.ExpenseDTO;
 import com.janmjay.expansetracker.dto.IncomeDTO;
 import com.janmjay.expansetracker.entity.CategoryEntity;
-import com.janmjay.expansetracker.entity.ExpenseEntity;
 import com.janmjay.expansetracker.entity.IncomeEntity;
 import com.janmjay.expansetracker.entity.ProfileEntity;
 import com.janmjay.expansetracker.repository.CategoryRepository;

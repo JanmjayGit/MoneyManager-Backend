@@ -4,10 +4,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 import java.util.function.Function;
 
@@ -21,11 +18,6 @@ public class JwtUtil {
     // Token validity in milliseconds (e.g., 5 hours)
     private static final long JWT_TOKEN_VALIDITY = 24 * 60 * 60 * 1000;
 
-    // Decode the Base64 encoded secret key
-//    private Key getSigningKey() {
-//        byte[] decodedKey = Base64.getDecoder().decode(secret);
-//        return new SecretKeySpec(decodedKey, 0, decodedKey.length, "HmacSHA256");
-//    }
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
