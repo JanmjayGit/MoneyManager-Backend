@@ -7,9 +7,14 @@ import com.janmjay.expansetracker.entity.ProfileEntity;
 import com.janmjay.expansetracker.repository.CategoryRepository;
 import com.janmjay.expansetracker.repository.IncomeRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -100,5 +105,39 @@ public class IncomeService {
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();
+    }
+
+    public byte[] exportIncomesToExcel() {
+        // Fetch all incomes for the current user/month, or however you want to export
+        List<IncomeDTO> incomes = getCurrentMonthIncomeForCurrentUser();
+
+        try (Workbook workbook = new XSSFWorkbook();
+             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+
+            Sheet sheet = workbook.createSheet("Incomes");
+
+            // Header row
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("Date");
+            headerRow.createCell(1).setCellValue("Source");
+            headerRow.createCell(2).setCellValue("Category");
+            headerRow.createCell(3).setCellValue("Amount");
+
+            // Data rows
+            int rowIdx = 1;
+            for (IncomeDTO income : incomes) {
+                Row row = sheet.createRow(rowIdx++);
+                row.createCell(0).setCellValue(income.getDate().toString()); // Adjust if not String
+                row.createCell(1).setCellValue(income.getName());
+                row.createCell(2).setCellValue(income.getCategoryName()); // Make sure this is available or fetch
+                row.createCell(3).setCellValue(income.getAmount().doubleValue());
+            }
+
+            workbook.write(out);
+            return out.toByteArray();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to export incomes to Excel", e);
+        }
     }
 }

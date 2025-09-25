@@ -60,8 +60,8 @@ public class DashboardService {
         data.put("totalBalance",
                 incomeService.getTotalIncomesForCurrentUser()
                         .subtract(expenseService.getTotalExpenseForCurrentUser()));
-        data.put("totalIncomes", incomeService.getTotalIncomesForCurrentUser());
-        data.put("totalExpenses", expenseService.getTotalExpenseForCurrentUser());
+        data.put("totalIncome", incomeService.getTotalIncomesForCurrentUser());
+        data.put("totalExpense", expenseService.getTotalExpenseForCurrentUser());
         data.put("recentTransactions", transactions);
         data.put("recent5Incomes", latestIncomes);
         data.put("recent5Expenses", latestExpenses);

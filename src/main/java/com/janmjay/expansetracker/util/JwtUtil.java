@@ -49,7 +49,7 @@ public class JwtUtil {
         return claimsResolver.apply(claims);
     }
 
-    // Validate token with provided username
+    // Validate token with Provided Username
     public boolean validateToken(String token, String username) {
         final String extractedUsername = extractUsername(token);
         return (extractedUsername.equals(username) && !isTokenExpired(token));

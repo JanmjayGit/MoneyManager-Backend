@@ -7,9 +7,14 @@ import com.janmjay.expansetracker.entity.ProfileEntity;
 import com.janmjay.expansetracker.repository.CategoryRepository;
 import com.janmjay.expansetracker.repository.ExpenseRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -108,5 +113,39 @@ public class ExpenseService {
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();
+    }
+
+    public byte[] exportExpensesToExcel() {
+        // Fetch all expenses for the current user/month, or however you want to export
+        List<ExpenseDTO> expenses = getCurrentMonthExpenseForCurrentUser();
+
+        try (Workbook workbook = new XSSFWorkbook();
+             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+
+            Sheet sheet = workbook.createSheet("Expenses");
+
+            // Header row
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("Date");
+            headerRow.createCell(1).setCellValue("Expense Name");
+            headerRow.createCell(2).setCellValue("Category");
+            headerRow.createCell(3).setCellValue("Amount");
+
+            // Data rows
+            int rowIdx = 1;
+            for (ExpenseDTO expense : expenses) {
+                Row row = sheet.createRow(rowIdx++);
+                row.createCell(0).setCellValue(expense.getDate().toString()); // Adjust if not String
+                row.createCell(1).setCellValue(expense.getName());
+                row.createCell(2).setCellValue(expense.getCategoryName()); // Make sure this is available or fetch
+                row.createCell(3).setCellValue(expense.getAmount().doubleValue());
+            }
+
+            workbook.write(out);
+            return out.toByteArray();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to export expenses to Excel", e);
+        }
     }
 }
