@@ -29,37 +29,74 @@ public class SecurityConfig {
     private final AppUserDetailsService appUserDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+//        httpSecurity.cors(Customizer.withDefaults())
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .authorizeHttpRequests(auth -> auth.requestMatchers("/status",
+//                                "/health",
+//                                "/register",
+//                                "/activate",
+//                                "/login").permitAll()
+//                        .anyRequest()
+//                        .authenticated())
+//                .sessionManagement(session -> session
+//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                // Add JWT filter before UsernamePasswordAuthenticationFilter
+//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+//
+//        return httpSecurity.build();
+//    }
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/status",
+                .authorizeHttpRequests(auth -> auth.requestMatchers(
+                                "/status",
                                 "/health",
-                                "/register",
-                                "/activate",
-                                "/login").permitAll()
+                                "/api/v1.0/register",  // Add this
+                                "/api/v1.0/login",     // Add this
+                                "/activate").permitAll()
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // Add JWT filter before UsernamePasswordAuthenticationFilter
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource(){
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedOrigins(List.of("*"));
+//        configuration.setAllowedMethods(List.of("POST", "GET", "PUT", "DELETE", "OPTIONS"));
+//        configuration.setAllowedHeaders(List.of("Authorization","Content-Type","Accept"));
+//        configuration.setAllowCredentials(false); // Changed to false when using "*" for origins
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
+
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "https://money-manager-frontend-virid.vercel.app"
+        ));
         configuration.setAllowedMethods(List.of("POST", "GET", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization","Content-Type","Accept"));
-        configuration.setAllowCredentials(false); // Changed to false when using "*" for origins
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+        configuration.setExposedHeaders(List.of("*"));
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
