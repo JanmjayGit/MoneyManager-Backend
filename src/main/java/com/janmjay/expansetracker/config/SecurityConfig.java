@@ -50,62 +50,28 @@ public class SecurityConfig {
     }
 
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity.cors(Customizer.withDefaults())
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(auth -> auth.requestMatchers(
-//                                "/status",
-//                                "/health",
-//                                "/api/v1.0/register",  // Add this
-//                                "/api/v1.0/login",     // Add this
-//                                "/activate").permitAll()
-//                        .anyRequest()
-//                        .authenticated())
-//                .sessionManagement(session -> session
-//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-//
-//        return httpSecurity.build();
-//    }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource(){
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(List.of("*"));
-//        configuration.setAllowedMethods(List.of("POST", "GET", "PUT", "DELETE", "OPTIONS"));
-//        configuration.setAllowedHeaders(List.of("Authorization","Content-Type","Accept"));
-//        configuration.setAllowCredentials(false); // Changed to false when using "*" for origins
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
-
-
     @Bean
-    public CorsConfigurationSource corsConfigurationSource(){
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(
-                "http://localhost:5173",
-                "https://money-manager-frontend-virid.vercel.app"
-        ));
+        configuration.setAllowedOrigins(List.of("https://money-manager-frontend-virid.vercel.app"));
         configuration.setAllowedMethods(List.of("POST", "GET", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true);
-        configuration.setExposedHeaders(List.of("*"));
-
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
+        configuration.setAllowCredentials(false); // Changed to false when using "*" for origins
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
+
     @Bean
-    public AuthenticationManager authenticationManager(AppUserDetailsService appUserDetailsService){
+    public AuthenticationManager authenticationManager(AppUserDetailsService appUserDetailsService) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(appUserDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
@@ -115,9 +81,8 @@ public class SecurityConfig {
 }
 
 
-
-////SessionManagement is a configuration feature in Spring Security that controls how HTTP sessions are handled for
-////incoming web requests.
+/// /SessionManagement is a configuration feature in Spring Security that controls how HTTP sessions are handled for
+/// /incoming web requests.
 //
 ////A session is a mechanism used to store user-specific information between multiple HTTP requests.
 //// For example, after a user logs in, the server may store their authentication details in a session,
