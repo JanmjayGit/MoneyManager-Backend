@@ -63,7 +63,7 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(List.of("https://money-manager-frontend-virid.vercel.app"));
         configuration.setAllowedMethods(List.of("POST", "GET", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
-        configuration.setAllowCredentials(false); // Changed to false when using "*" for origins
+        configuration.setAllowCredentials(true); // Changed to false when using "*" for origins
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
