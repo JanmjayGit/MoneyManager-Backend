@@ -34,6 +34,7 @@ public class ProfileEntity {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+//    @Column(name = "is_active", columnDefinition = "TINYINT(1)")
     private Boolean isActive;
     private String activationToken;
 

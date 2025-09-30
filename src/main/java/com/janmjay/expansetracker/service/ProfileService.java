@@ -31,6 +31,12 @@ public class ProfileService {
     private String activationURL;
 
     public ProfileDTO registerProfile(ProfileDTO profileDTO){ // now we can call our service method inside the controller
+        // 1. Check if email already exists
+        profileRepository.findByEmail(profileDTO.getEmail())
+                .ifPresent(existing -> {
+                    throw new RuntimeException("Email already registered: " + profileDTO.getEmail());
+                });
+
         ProfileEntity newProfile = toEntity(profileDTO);
         newProfile.setActivationToken(UUID.randomUUID().toString());
         newProfile = profileRepository.save(newProfile);

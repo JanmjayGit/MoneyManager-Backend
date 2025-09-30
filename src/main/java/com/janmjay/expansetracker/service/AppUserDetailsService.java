@@ -5,6 +5,7 @@ package com.janmjay.expansetracker.service;
 import com.janmjay.expansetracker.entity.ProfileEntity;
 import com.janmjay.expansetracker.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,7 @@ import java.util.Collections;
 public class AppUserDetailsService implements UserDetailsService {
 
     private final ProfileRepository profileRepository;
+
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
